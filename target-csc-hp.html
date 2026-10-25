@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Target CSC per Jam</title>
+<style>
+:root{--bg:#f3f5fc;--card:#fff;--tx:#1b2140;--mut:#6b7394;--pri:#5b5bf0;--ok:#12b886;--bad:#f03e3e;--warn:#f59f00;--bd:#e3e7f3;--okb:#e6fcf5;--badb:#fff0f0;--grp:#ece9ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12142a;--card:#1d2040;--tx:#eef0ff;--mut:#9aa1c8;--bd:#2e3262;--okb:#10332b;--badb:#3a1c26;--grp:#2a2d5e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12142a;--card:#1d2040;--tx:#eef0ff;--mut:#9aa1c8;--bd:#2e3262;--okb:#10332b;--badb:#3a1c26;--grp:#2a2d5e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:150px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+#app{max-width:720px;margin:0 auto;padding:14px}
+h1{margin:0;font-size:20px}h2{font-size:16px;margin:18px 0 8px}
+.hero{background:linear-gradient(135deg,#5b5bf0,#d6336c);color:#fff;border-radius:18px;padding:16px;margin-bottom:12px}
+.hero small{opacity:.85}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.grid div{background:rgba(255,255,255,.18);border-radius:12px;padding:8px 10px}
+.grid b{display:block;font-size:15px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin:8px 0}
+.r{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.m{color:var(--mut);font-size:13px;margin-top:2px}
+.pill{border-radius:99px;padding:2px 10px;font-weight:700;font-size:13px;background:var(--bd)}
+.cz{display:inline-block;border-radius:99px;padding:3px 10px;color:#fff;font-size:12px;font-weight:600}
+.sgt{font-size:13px;margin-top:6px;background:var(--card);border:1px dashed var(--warn);border-radius:10px;padding:6px 10px}
+.banner{background:var(--warn);color:#1b1b1b;border-radius:12px;padding:10px 12px;font-weight:600;margin:8px 0}
+.ro{display:inline-block;background:var(--bd);color:var(--mut);border-radius:99px;padding:2px 10px;font-size:12px;margin-left:6px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:20}
+nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:11px;padding:4px;border-radius:10px}
+nav button span{display:block;font-size:20px}nav button.on{color:var(--pri);font-weight:700;background:var(--bg)}
+.fab{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:21;border:0;border-radius:99px;padding:13px 20px;font:inherit;font-weight:700;color:#fff;background:var(--pri);box-shadow:0 6px 18px rgba(91,91,240,.45)}
+.fab.sv{background:var(--ok);bottom:calc(132px + env(safe-area-inset-bottom,0px))}
+input,select{width:100%;font:inherit;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+label{display:block;font-size:12px;color:var(--mut);margin:10px 0 3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:600;background:var(--pri);color:#fff}.btn.g{background:var(--bd);color:var(--tx)}.btn.d{background:var(--bad)}
+.btns{display:flex;gap:8px;margin-top:14px}.btns .btn{flex:1}
+#modal:empty{display:none}
+#modal{position:fixed;inset:0;background:rgba(10,12,30,.55);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92%;overflow:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:2px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:99px;padding:7px 12px;font:inherit;font-size:13px}
+.chip.on{color:#fff;border-color:transparent}
+.bar{height:12px;border-radius:6px;background:var(--bd);overflow:hidden}.bar i{display:block;height:100%}
+.tw{overflow-x:auto;border:1px solid var(--bd);border-radius:12px;background:var(--card)}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+td,th{padding:7px 6px;text-align:center;border-bottom:1px solid var(--bd);white-space:nowrap}
+.tw td:first-child,.tw th:first-child{position:sticky;left:0;text-align:left;background:var(--card);z-index:2;min-width:96px;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+tr.grp td{background:var(--grp);font-weight:700;color:var(--pri);text-align:left}
+td.c{min-width:62px;font-weight:700}td.ok{background:var(--okb);color:var(--ok)}td.bad{background:var(--badb);color:var(--bad)}td.nil{color:var(--mut);font-weight:400}
+td.c small{display:block;font-weight:400}
+tr.tot td{font-weight:700;background:var(--bg)}
+#toast{position:fixed;left:50%;bottom:calc(140px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#222;color:#fff;border-radius:10px;padding:9px 14px;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+</style></head>
+<body>
+<div id="app"></div><div id="modal"></div><div id="toast"></div>
+<script id="data" type="application/json">{"info":{"pic":"","line":"Line 1"},"slots":["07:00","08:00","09:00","10:00","11:00","13:00","14:00","15:00"],"procs":[],"days":{}}</script>
+<script>
+const S=JSON.parse(document.getElementById('data').textContent);
+try{const x=localStorage.getItem('csc_target');if(x)Object.assign(S,JSON.parse(x))}catch(e){}
+let tab='home',date=today(),dirty=false,editable=true,art=null,m=null,cause='';
+const C={Machine:['⚙️','Machine','#7950f2'],Man:['🧑‍🏭','Man Power','#f76707'],Method:['📋','Method','#1c7ed6'],Material:['🧵','Material','#d6336c'],Environment:['🌡️','Environment','#0ca678']};
+const SG={Machine:'Cek dan servis mesin, siapkan mesin cadangan, periksa jarum dan setting mesin.',Man:'Beri pendampingan atau training singkat, cek skill dan kehadiran, atur ulang penempatan operator.',Method:'Tinjau ulang urutan kerja, perbaiki SOP atau layout proses, pakai alat bantu atau jig.',Material:'Cek ketersediaan bahan, kualitas bahan dan aksesori, koordinasi dengan gudang atau cutting.',Environment:'Cek pencahayaan, suhu, kebersihan area kerja dan aliran WIP antar proses.'};
+function today(){return new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10)}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pc=(a,t)=>t?Math.round(a/t*100):0;
+const rng=s=>{const h=+s.slice(0,2);return s+'–'+String(h+1).padStart(2,'0')+':'+s.slice(3)};
+const day=d=>{const x=S.days[d];return x&&x.rows?x:{style:'',model:'',rows:[]}};
+const ens=d=>{if(!S.days[d]||!S.days[d].rows)S.days[d]={style:'',model:'',rows:[]};return S.days[d]};
+const fmt=d=>new Date(d+'T00:00').toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function toast(t){const e=$('#toast');e.textContent=t;e.className='show';setTimeout(()=>e.className='',2600)}
+function flat(d){const o=[];day(d).rows.forEach(r=>S.slots.forEach(s=>{if(r.tg[s]!=null&&r.ac[s]!=null)o.push({slot:s,proc:r.proc,op:r.op,target:r.tg[s],actual:r.ac[s],cause:r.cs[s]||'',note:r.nt[s]||''})}));return o}
+function sum(E){let t=0,a=0;E.forEach(e=>{t+=e.target;a+=e.actual});return[t,a]}
+
+function render(){
+  if(dirty){try{localStorage.setItem('csc_target',JSON.stringify(S))}catch(e){toast('Browser menolak menyimpan data')}dirty=false}
+  const v={home,target,stats,settings}[tab]();
+  const nav=[['home','🏠','Beranda'],['target','🎯','Target'],['stats','📊','Statistik'],['settings','⚙️','Pengaturan']];
+  $('#app').innerHTML=v+'<nav>'+nav.map(n=>`<button class="${tab==n[0]?'on':''}" data-act="tab" data-v="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('')+'</nav>'
+   +(editable&&dirty?'<button class="fab sv" data-act="save">💾 Simpan</button>':'')
+   +(editable&&tab=='target'?'<button class="fab" data-act="addrow">＋ Operator</button>':'');
+}
+function home(){
+  const i=S.info,dy=day(today()),[t,a]=sum(flat(today()));
+  const days=Object.keys(S.days).filter(d=>day(d).rows.length).sort().reverse().slice(0,14);
+  return `<div class="hero"><small>Target Jahit per Jam · CSC${editable?'':'<span class="ro">lihat saja</span>'}</small><h1>${esc(i.line)||'Line'}</h1>
+  <div class="grid"><div><small>PIC</small><b>${esc(i.pic)||'–'}</b></div><div><small>Hari ini</small><b>${t?pc(a,t)+'% ('+a+'/'+t+')':'belum ada data'}</b></div><div><small>Model</small><b>${esc(dy.model)||'–'}</b></div><div><small>Style</small><b>${esc(dy.style)||'–'}</b></div></div></div>
+  <h2>📁 Arsip harian</h2>${days.length?days.map(d=>{const[tt,aa]=sum(flat(d)),p=pc(aa,tt),x=day(d);return `<div class="card" data-act="open" data-v="${d}"><div class="r"><b>${fmt(d)}</b><span class="pill" style="background:${p>=100?'var(--ok)':'var(--bad)'};color:#fff">${tt?p+'%':'–'}</span></div><div class="m">${esc(x.style)||'–'} · ${esc(x.model)||'–'} · ${x.rows.length} operator · ${aa}/${tt} pcs</div></div>`}).join(''):'<div class="card m">Belum ada data. Buka tab Target untuk mulai mencatat.</div>'}`;
+}
+function remind(){
+  if(date!==today())return '';
+  const n=new Date(),now=n.getHours()*60+n.getMinutes();let out='';
+  S.slots.forEach(s=>{const left=(+s.slice(0,2)+1)*60+(+s.slice(3))-now;
+    if(left>0&&left<=10){const k=day(date).rows.filter(r=>r.tg[s]!=null&&r.ac[s]==null).length;if(k)out+=`<div class="banner">⏰ Jam ${rng(s)} berakhir ${left} menit lagi. ${k} operator belum diisi hasilnya.</div>`}});
+  return out;
+}
+function target(){
+  const dy=day(date),R=dy.rows,ed=editable;
+  let h=`<h1>🎯 Target</h1><label>Tanggal</label><input type="date" id="dt" value="${date}">
+  <div class="two"><div><label>Style</label><input data-d="style" value="${esc(dy.style)}" ${ed?'':'disabled'}></div><div><label>Model</label><input data-d="model" value="${esc(dy.model)}" ${ed?'':'disabled'}></div></div>`+remind();
+  if(!R.length)return h+'<div class="card m">Belum ada operator di tanggal ini.'+(ed?' Tekan ＋ Operator.':'')+'</div>';
+  const ps=[...new Set(R.map(r=>r.proc))];
+  h+='<h2>Hasil / Target per jam</h2><div class="tw"><table><tr><th>Operator</th>'+S.slots.map(s=>`<th>${s}</th>`).join('')+'</tr>';
+  ps.forEach(p=>{h+=`<tr class="grp"><td colspan="${S.slots.length+1}">${esc(p)}</td></tr>`;
+    R.filter(r=>r.proc==p).forEach(r=>{h+=`<tr><td ${ed?`data-act="editrow" data-id="${r.id}"`:''}>${esc(r.op)||'–'}</td>`+S.slots.map(s=>{
+      const t=r.tg[s],a=r.ac[s],cl=t==null?'nil':a==null?'nil':a>=t?'ok':'bad';
+      return `<td class="c ${cl}" ${ed?`data-act="cell" data-id="${r.id}" data-v="${s}"`:''}>${t==null?(ed?'＋':'·'):(a==null?'–':a)+'/'+t}${r.cs[s]&&C[r.cs[s]]?`<small>${C[r.cs[s]][0]}</small>`:''}</td>`}).join('')+'</tr>'});});
+  h+='<tr class="tot"><td>Total</td>'+S.slots.map(s=>{const[t,a]=sum(flat(date).filter(e=>e.slot==s));return `<td>${t?a+'/'+t:'·'}</td>`}).join('')+'</tr></table></div>';
+  h+='<button class="btn" style="margin-top:10px;width:100%;background:#25d366" data-act="wa">📤 Bagikan ringkasan ke WhatsApp</button>';
+  if(ed)h+='<div class="m" style="margin-top:6px">Ketuk kotak jam untuk mengisi target/hasil. Ketuk nama operator untuk mengubahnya.</div>';
+  const bad=flat(date).filter(e=>e.actual<e.target);
+  if(bad.length)h+='<h2>⚠️ Masalah dan saran</h2>'+bad.map(e=>`<div class="card"><div class="r"><b>${esc(e.op)||'–'} · ${esc(e.proc)}</b><span class="m">${e.slot}</span></div><div class="m">Hasil ${e.actual} dari target ${e.target}</div>${e.cause?`<span class="cz" style="background:${C[e.cause][2]}">${C[e.cause][0]} ${C[e.cause][1]}</span>${e.note?`<div class="m">📝 ${esc(e.note)}</div>`:''}<div class="sgt">💡 ${SG[e.cause]}</div>`:'<div class="m">Penyebab belum diisi</div>'}</div>`).join('');
+  return h;
+}
+function stats(){
+  const E=flat(date);
+  let h=`<h1>📊 Statistik</h1><label>Tanggal</label><input type="date" id="dt" value="${date}">`;
+  if(!E.length)return h+'<div class="card m">Belum ada hasil yang diisi di tanggal ini.</div>';
+  const [T,A]=sum(E);
+  h+=`<div class="card"><div class="r"><b>Pencapaian hari ini</b><span class="pill" style="background:${A>=T?'var(--ok)':'var(--bad)'};color:#fff">${pc(A,T)}%</span></div><div class="m">${A} dari ${T} pcs</div></div>`;
+  const hs=S.slots.map(s=>{const[t,a]=sum(E.filter(e=>e.slot==s));return{s,t,a,p:pc(a,t)}}).filter(x=>x.t);
+  const bw=Math.min(36,(300)/hs.length-6);
+  h+='<h2>Pencapaian per jam</h2><div class="card"><svg viewBox="0 0 320 170" width="100%" role="img" aria-label="Grafik pencapaian per jam"><line x1="0" x2="320" y1="30" y2="30" stroke="#f59f00" stroke-dasharray="4 3"/><text x="2" y="24" font-size="10" fill="#f59f00">100%</text>'
+   +hs.map((x,i)=>{const x0=14+i*(bw+6),ht=Math.min(x.p,130)/130*120;return `<rect x="${x0}" y="${150-ht}" width="${bw}" height="${ht}" rx="4" fill="${x.p>=100?'#12b886':'#f03e3e'}"/><text x="${x0+bw/2}" y="${144-ht}" font-size="10" text-anchor="middle" fill="currentColor">${x.p}</text><text x="${x0+bw/2}" y="164" font-size="9" text-anchor="middle" fill="currentColor">${x.s.slice(0,2)}</text>`}).join('')+'</svg></div>';
+  const g={};E.forEach(e=>{(g[e.proc]=g[e.proc]||{t:0,a:0,c:{}});g[e.proc].t+=e.target;g[e.proc].a+=e.actual;if(e.cause)g[e.proc].c[e.cause]=(g[e.proc].c[e.cause]||0)+1});
+  const pr=Object.entries(g).map(([n,x])=>({n,p:pc(x.a,x.t),t:x.t,a:x.a,c:Object.entries(x.c).sort((a,b)=>b[1]-a[1])[0]})).sort((a,b)=>a.p-b.p);
+  h+='<h2>Pencapaian per proses</h2><div class="tw"><table><tr><th>Proses</th><th>Hasil/Target</th><th>%</th><th>Masalah utama</th></tr>'+pr.map(x=>`<tr><td>${esc(x.n)}</td><td>${x.a}/${x.t}</td><td style="color:${x.p>=100?'var(--ok)':'var(--bad)'};font-weight:700">${x.p}%</td><td>${x.c?C[x.c[0]][0]+' '+C[x.c[0]][1]:'–'}</td></tr>`).join('')+'</table></div>';
+  const cc={};E.forEach(e=>{if(e.cause)cc[e.cause]=(cc[e.cause]||0)+1});const mx=Math.max(1,...Object.values(cc));
+  if(Object.keys(cc).length){h+='<h2>Penyebab tidak tercapai (5M1E)</h2><div class="card">'+Object.entries(cc).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<div class="r"><span>${C[k][0]} ${C[k][1]}</span><b>${n}×</b></div><div class="bar"><i style="width:${n/mx*100}%;background:${C[k][2]}"></i></div><div style="height:8px"></div>`).join('')+'</div>';
+    const w=pr[0];if(w&&w.p<100&&w.c)h+=`<div class="sgt">💡 Prioritas perbaikan: proses <b>${esc(w.n)}</b> (${w.p}%), penyebab terbanyak ${C[w.c[0]][1]}. ${SG[w.c[0]]}</div>`}
+  return h;
+}
+function settings(){
+  const i=S.info;if(!editable)return '<h1>⚙️ Pengaturan</h1><div class="card m">Hanya editor yang dapat mengubah pengaturan.</div>';
+  const f=(k,l)=>`<label>${l}</label><input data-k="${k}" value="${esc(i[k])}">`;
+  return `<h1>⚙️ Pengaturan</h1><div class="card">${f('pic','PIC / Team Leader')}${f('line','Line')}
+  <label>Jam kerja (awal tiap jam, pisahkan koma)</label><input id="sl" value="${esc(S.slots.join(','))}"></div>
+  <h2>Daftar proses</h2><div class="card">${S.procs.map((p,k)=>`<div class="r" style="margin:4px 0"><span>${esc(p)}</span><button class="btn g" data-act="delp" data-v="${k}">✕</button></div>`).join('')||'<div class="m">Belum ada proses.</div>'}
+  <div class="r" style="margin-top:10px"><input id="np" placeholder="Nama proses baru"><button class="btn" data-act="addp" style="white-space:nowrap">Tambah</button></div></div>
+  <h2>Cadangan data</h2><div class="card"><div class="m">Data tersimpan otomatis di HP ini saja. Ekspor berkala sebagai cadangan.</div><div class="btns"><button class="btn" data-act="export">⬇️ Ekspor</button><button class="btn g" data-act="import">⬆️ Impor</button></div><input type="file" id="imp" accept=".json" hidden></div>`;
+}
+function rowForm(r){
+  m={mode:'row',id:r?r.id:null};
+  $('#modal').innerHTML=`<div class="sheet"><h1>${r?'Edit':'Tambah'} operator</h1><div class="m">${fmt(date)}</div>
+  <label>Proses</label><input id="f_p" list="pl" value="${r?esc(r.proc):''}" placeholder="mis. Proses A / Pasang kerah"><datalist id="pl">${S.procs.map(p=>`<option value="${esc(p)}">`).join('')}</datalist>
+  <label>Nama operator</label><input id="f_o" value="${r?esc(r.op):''}">
+  ${r?'':'<label>Target per jam (diisi ke semua jam, bisa diubah per jam)</label><input id="f_t" type="number" inputmode="numeric">'}
+  <div class="btns">${r?'<button class="btn d" data-act="delrow">Hapus</button>':''}<button class="btn g" data-act="close">Batal</button><button class="btn" data-act="okrow">OK</button></div></div>`;
+}
+function okRow(){
+  const p=$('#f_p').value.trim(),o=$('#f_o').value.trim();if(!p||!o)return toast('Isi proses dan nama operator');
+  const dy=ens(date);
+  if(m.id){const r=dy.rows.find(x=>x.id==m.id);r.proc=p;r.op=o}
+  else{const t=$('#f_t').value,r={id:Date.now().toString(36),proc:p,op:o,tg:{},ac:{},cs:{},nt:{}};if(t!=='')S.slots.forEach(s=>r.tg[s]=+t);dy.rows.push(r)}
+  if(!S.procs.includes(p))S.procs.push(p);
+  dy.rows.sort((a,b)=>a.proc==b.proc?0:0);
+  dirty=true;$('#modal').innerHTML='';render();
+}
+function cellForm(id,s){
+  const r=day(date).rows.find(x=>x.id==id);m={mode:'cell',id,slot:s};cause=r.cs[s]||'';
+  $('#modal').innerHTML=`<div class="sheet"><h1>${esc(r.op)} · ${rng(s)}</h1><div class="m">${esc(r.proc)}</div>
+  <div class="two"><div><label>Target (pcs)</label><input id="f_t" type="number" inputmode="numeric" value="${r.tg[s]==null?'':r.tg[s]}"></div><div><label>Hasil (pcs)</label><input id="f_a" type="number" inputmode="numeric" value="${r.ac[s]==null?'':r.ac[s]}"></div></div>
+  <div id="cz" hidden><label>Penyebab tidak tercapai (wajib)</label><div class="chips">${Object.entries(C).map(([k,c])=>`<button type="button" class="chip ${cause==k?'on':''}" data-act="cause" data-v="${k}" ${cause==k?`style="background:${c[2]}"`:''}>${c[0]} ${c[1]}</button>`).join('')}</div><div id="sg" class="sgt" hidden></div><label>Catatan</label><input id="f_n" value="${esc(r.nt[s]||'')}"></div>
+  <div class="btns"><button class="btn g" data-act="close">Batal</button><button class="btn" data-act="okcell">OK</button></div></div>`;
+  upd();
+}
+function upd(){
+  const t=$('#f_t').value,a=$('#f_a').value,low=a!==''&&t!==''&&+a<+t;
+  $('#cz').hidden=!low;const sg=$('#sg');sg.hidden=!(low&&cause);if(cause)sg.textContent='💡 '+SG[cause];
+}
+function okCell(){
+  const t=$('#f_t').value,a=$('#f_a').value,s=m.slot,r=day(date).rows.find(x=>x.id==m.id);
+  if(t==='')return toast('Isi target');
+  const low=a!==''&&+a<+t;if(low&&!cause)return toast('Pilih penyebab tidak tercapai');
+  r.tg[s]=+t;a===''?delete r.ac[s]:r.ac[s]=+a;
+  if(low){r.cs[s]=cause;r.nt[s]=$('#f_n').value.trim()}else{delete r.cs[s];delete r.nt[s]}
+  dirty=true;$('#modal').innerHTML='';render();
+}
+async function save(){
+  if(!art)return toast('Fitur simpan tidak tersedia');
+  const r=document.documentElement.cloneNode(true);
+  r.querySelector('#app').innerHTML='';r.querySelector('#modal').innerHTML='';r.querySelector('#toast').className='';r.querySelector('#toast').textContent='';
+  r.querySelector('#data').textContent=JSON.stringify(S).replace(/</g,'\\u003c');
+  try{await art.publish('<!doctype html>\n'+r.outerHTML)}catch(e){toast(e&&e.code=='conflict'?'Ada perubahan lain, muat ulang halaman':'Gagal simpan: '+((e&&e.code)||'error'))}
+}
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,v=b.dataset.v;
+  if(a=='tab'){tab=v;render()}
+  else if(a=='open'){date=v;tab='target';render()}
+  else if(a=='addrow')rowForm();
+  else if(a=='editrow')rowForm(day(date).rows.find(r=>r.id==b.dataset.id));
+  else if(a=='cell')cellForm(b.dataset.id,v);
+  else if(a=='close')$('#modal').innerHTML='';
+  else if(a=='okrow')okRow();
+  else if(a=='okcell')okCell();
+  else if(a=='cause'){cause=v;document.querySelectorAll('.chip').forEach(c=>{const on=c.dataset.v==v;c.classList.toggle('on',on);c.style.background=on?C[v][2]:''});upd()}
+  else if(a=='delrow'){if(confirm('Hapus operator ini beserta datanya hari ini?')){const dy=ens(date);dy.rows=dy.rows.filter(r=>r.id!=m.id);dirty=true;$('#modal').innerHTML='';render()}}
+  else if(a=='export'){const u=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download='target-csc-'+today()+'.json';l.click()}
+  else if(a=='import')$('#imp').click();
+  else if(a=='wa'){const E=flat(date),[T,A]=sum(E),d=day(date);let t=`*Target ${S.info.line} - ${fmt(date)}*\nStyle: ${d.style||'-'} | Model: ${d.model||'-'}\nTotal: ${A}/${T} (${pc(A,T)}%)`;E.filter(e=>e.actual<e.target).forEach(e=>{t+=`\n- ${e.slot} ${e.op} (${e.proc}): ${e.actual}/${e.target}${e.cause?' - '+C[e.cause][1]:''}`});window.open('https://wa.me/?text='+encodeURIComponent(t))}
+  else if(a=='addp'){const x=$('#np').value.trim();if(x&&!S.procs.includes(x)){S.procs.push(x);dirty=true;render()}}
+  else if(a=='delp'){S.procs.splice(+v,1);dirty=true;render()}
+});
+document.addEventListener('input',ev=>{if(['f_t','f_a'].includes(ev.target.id)&&m&&m.mode=='cell')upd()});
+document.addEventListener('change',ev=>{
+  const t=ev.target;
+  if(t.id=='dt'){date=t.value||today();render()}
+  else if(t.id=='imp'){const f=t.files[0];if(f)f.text().then(x=>{try{const j=JSON.parse(x);if(!j.slots||!j.days)throw 0;Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,j);dirty=true;render();toast('Data berhasil diimpor')}catch(e){toast('File tidak valid')}})}
+  else if(t.dataset.d){ens(date)[t.dataset.d]=t.value.trim();dirty=true;render()}
+  else if(t.dataset.k){S.info[t.dataset.k]=t.value.trim();dirty=true;render()}
+  else if(t.id=='sl'){const L=t.value.split(',').map(x=>x.trim()).filter(x=>/^\d{1,2}:\d{2}$/.test(x)).map(x=>x.padStart(5,'0'));if(L.length){S.slots=L;dirty=true;render()}}
+});
+setInterval(()=>{if(tab=='target'&&!$('#modal').innerHTML&&!document.activeElement.matches('input'))render()},60000);
+render();
+</script>
+</body></html>
